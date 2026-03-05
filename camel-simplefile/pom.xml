@@ -13,20 +13,52 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.release>25</maven.compiler.release>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- APACHE CAMEL -->
+			<dependency>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-bom</artifactId>
+				<version>4.8.0</version> <!-- Use the current stable version -->
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- END APACHE CAMEL -->
+
+		</dependencies>
+	</dependencyManagement>
 
 	<dependencies>
 
+		<!-- APACHE CAMEL -->
 		<dependency>
-			<groupId>org.apache.camel.quarkus</groupId>
-			<artifactId>camel-quarkus-core</artifactId>
-			<version>3.32.0</version>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.camel.quarkus</groupId>
-			<artifactId>camel-quarkus-file</artifactId>
-			<version>3.32.0</version>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-file</artifactId>
+		</dependency>
+		<!-- END APACHE CAMEL -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.12</version> <!-- Use the latest version from Maven
+			Repository -->
+		</dependency>
+
+		<!-- Provedor/Binding do SLF4J (Logback - Recomendado) -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.32</version> <!-- Use a versão mais recente compatível -->
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
