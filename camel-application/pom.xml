@@ -47,6 +47,14 @@
 			Repository -->
 		</dependency>
 
+		<!-- Provedor/Binding do SLF4J (Logback - Recomendado) -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.32</version> <!-- Use a versão mais recente compatível -->
+			<scope>runtime</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
