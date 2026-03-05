@@ -13,7 +13,7 @@ public class CopyFilesCamelMultiRoute {
 			@Override
 			public void configure() throws Exception {
 				from("file:data/input?noop=true")
-					.to("log:?level=INF0&showBody=true&showHeaders=true")
+//					.to("log:?level=INF0&showBody=true&showHeaders=true")
 					.to("file:data/output");
 
 				from("file:data/input1?noop=true")
