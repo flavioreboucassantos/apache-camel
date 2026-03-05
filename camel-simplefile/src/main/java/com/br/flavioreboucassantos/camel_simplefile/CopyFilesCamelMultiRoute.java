@@ -14,10 +14,11 @@ public class CopyFilesCamelMultiRoute {
 			public void configure() throws Exception {
 				from("file:data/input?noop=true")
 //					.to("log:?level=INF0&showBody=true&showHeaders=true")
-					.to("file:data/output");
+					.to("file:data_output")
+					.to("file:data_outputSecond");
 
 				from("file:data/input1?noop=true")
-					.to("file:data/output1");
+					.to("file:data_output1");
 			}
 		};
 
