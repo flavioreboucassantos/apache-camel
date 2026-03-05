@@ -1,5 +1,7 @@
 package com.br.flavioreboucassantos.camelmicroservice.routes.a;
 
+import java.time.LocalDateTime;
+
 import org.apache.camel.builder.RouteBuilder;
 
 import io.quarkus.runtime.StartupEvent;
@@ -15,12 +17,16 @@ public class MyFirstTimerRouter extends RouteBuilder {
 		// transformation
 		// log
 
-		from("timer:first-timer").to("log:first-timer").log("Mensagem recebida: ${body}");
+		from("timer:first-timer")
+			.transform()
+			.constant("Time now is " + LocalDateTime.now())
+			.to("log:first-timer");
 
 	}
 
 	void onStart(@Observes StartupEvent ev) {
-		System.out.println("Serviço iniciado!");
+		System.out
+			.println("Serviço iniciado!");
 	}
 
 }
