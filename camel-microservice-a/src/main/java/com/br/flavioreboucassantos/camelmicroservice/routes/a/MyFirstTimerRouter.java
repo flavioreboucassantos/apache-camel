@@ -1,9 +1,12 @@
 package com.br.flavioreboucassantos.camelmicroservice.routes.a;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.spi.annotations.Component;
 
-@Component(value = "myFirstTimerRouter")
+import io.quarkus.runtime.StartupEvent;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+
+@ApplicationScoped
 public class MyFirstTimerRouter extends RouteBuilder {
 
 	@Override
@@ -12,7 +15,12 @@ public class MyFirstTimerRouter extends RouteBuilder {
 		// transformation
 		// log
 
-		from("timer:first-timer").to("log:first-timer");
+		from("timer:first-timer").to("log:first-timer").log("Mensagem recebida: ${body}");
+
+	}
+
+	void onStart(@Observes StartupEvent ev) {
+		System.out.println("Serviço iniciado!");
 	}
 
 }

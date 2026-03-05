@@ -40,10 +40,26 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<!-- camel-quarkus -->
+
+		<dependency>
+			<groupId>org.apache.camel.quarkus</groupId>
+			<artifactId>camel-quarkus-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel.quarkus</groupId>
+			<artifactId>camel-quarkus-timer</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.camel.quarkus</groupId>
 			<artifactId>camel-quarkus-log</artifactId>
 		</dependency>
+
+		<!-- END camel-quarkus -->
+
+
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-arc</artifactId>
