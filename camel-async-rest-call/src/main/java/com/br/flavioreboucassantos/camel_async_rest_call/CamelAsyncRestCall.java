@@ -78,12 +78,14 @@ public class CamelAsyncRestCall {
 						.toD("https://${header.uriHttps}/${header.param1}") // ENVIA REQUISIÇÃO ASSÍNCRONA GET - RECEBE NOVO HEADER & NOVO BODY
 						.setBody(simple("CORPO RETORNADO -> ${body}")) // PRECISA CHAMAR ANTES DE .to("seda:agentOfGET") PARA PROCESSAR EM SEQUÊNCIA
 						.to("seda:agentOfGET") // ENVIA HEADER & BODY PARA seda:agentOfGET
+						.process(p -> printWipe2("Debug BreakPoint Here with message.body=" + p.getIn().getBody(String.class)))
 						.log("seda:agentOfGET CONSUMIDA - PARAMETROS RECEBIDOS :: ((uriHttps=${header.uriHttps})) :: ((param1=${header.param1}))");
 			}
 		};
 
 		final DefaultCamelContext defaultCamelContext = new DefaultCamelContext();
 		defaultCamelContext.setMessageHistory(true);
+		defaultCamelContext.setTracing(true); // Ativar o rastreamento no contexto detalha o fluxo de mensagens
 		defaultCamelContext.start();
 		defaultCamelContext.addRoutes(routeBuilder);
 
