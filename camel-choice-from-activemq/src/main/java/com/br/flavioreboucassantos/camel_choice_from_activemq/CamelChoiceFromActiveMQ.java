@@ -52,12 +52,14 @@ public class CamelChoiceFromActiveMQ {
 				final Endpoint ep_widget = endpoint("activemq:queue:" + activeMQ_QueueEnd1);
 				final Endpoint ep_gadget = endpoint("activemq:queue:" + activeMQ_QueueEnd2);
 
+				// Checks if the filename contains a secret
 				from(ep_orders)
 						.log("CamelFileName = ${header.CamelFileName}")
 						.choice()
 						.when(simple_fileNameContainsSecret).log("(ON) order WITH secret").to("direct:order_with_secret")
 						.otherwise().log("(OFF) order WITHOUT secret");
 
+				// Distribute the order
 				from("direct:order_with_secret")
 						.choice()
 						.when(xpath_order_product_widget).log("Order is Widget").to(ep_widget)
