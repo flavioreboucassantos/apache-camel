@@ -9,6 +9,13 @@
 	"A profile aware file is only loaded if the unprofiled application.properties is also available in the same location and the file extension matches between the files.
 	This is required to keep a consistent loading order and pair all the resources together."
 	
+# ACTIVEMQ
+
+	RUN: activemq start
+	Abra o navegador em http://localhost:8161/admin
+	O login padrão é admin / admin (pode ser necessário configurar no conf/jetty.xml se não funcionar).
+	Logs: Se houver problemas, verifique os logs em activemq-data/activemq.log.	
+	
 # COMANDOS DEV
 
 	mvnw quarkus:list-extensions
