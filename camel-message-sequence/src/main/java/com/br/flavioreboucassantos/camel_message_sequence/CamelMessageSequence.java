@@ -36,7 +36,7 @@ public class CamelMessageSequence {
 
 				BatchResequencerConfig configBatchSize3 = new BatchResequencerConfig();
 				configBatchSize3.setBatchSize("3"); // Define o tamanho máximo do lote. O resequencer aguardará chegar esta quantidade de mensagens antes de ordená-las e enviá-las.
-				configBatchSize3.setBatchTimeout("4000"); // Define o tempo em milissegundos que o resequencer espera para receber mensagens. Se o tempo esgotar, ele envia o que foi recebido até então, mesmo que o size não tenha sido atingido
+				configBatchSize3.setBatchTimeout(String.valueOf(1000 * 60 * 10)); // Define o tempo em milissegundos que o resequencer espera para receber mensagens. Se o tempo esgotar, ele envia o que foi recebido até então, mesmo que o size não tenha sido atingido.
 				from("direct:batchSize3")
 						.resequence(header("index"))
 						.batch(configBatchSize3)
@@ -46,12 +46,12 @@ public class CamelMessageSequence {
 				// Stream (Fluxo): Processa eventos ou dados individualmente e em tempo real (ou próximo disso) assim que chegam.
 				// Stream (Resequence EIP): Ordena mensagens continuamente, útil para fluxo de mensagens em tempo real onde a latência de agrupamento não é desejada.
 
-				StreamResequencerConfig configStreamCapacity3 = new StreamResequencerConfig();
-				configStreamCapacity3.setCapacity("3"); // Define o número máximo de mensagens que o resequenciador pode manter na memória enquanto espera mensagens faltantes.
-				configStreamCapacity3.setTimeout("5000"); // O tempo em milissegundos que o resequenciador aguarda uma mensagem faltante antes de enviar as que já possui.
-				from("direct:streamCapacity3")
+				StreamResequencerConfig configStreamCapacity2 = new StreamResequencerConfig();
+				configStreamCapacity2.setCapacity("2"); // Define o número máximo de mensagens que o resequenciador pode manter na memória enquanto espera mensagens faltantes.
+				configStreamCapacity2.setTimeout("1000"); // O tempo em milissegundos que o resequenciador aguarda uma mensagem faltante antes de enviar as que já possui.
+				from("direct:streamCapacity2")
 						.resequence(header("index"))
-						.stream(configStreamCapacity3)
+						.stream(configStreamCapacity2)
 						.log("S T R E A M ::: ${body}")
 						.to("mock:result");
 
@@ -70,28 +70,28 @@ public class CamelMessageSequence {
 		 */
 		printWipe2("USING PRODUCER");
 
-		final int limit = 3;
+		/*
+		 * PREPARE DATA
+		 */
+		final int limit = 6;
 		final String messages[] = new String[limit];
 		final Map<String, Object> headers = new HashMap<>();
 
-		/*
-		 * Prepare Data
-		 */
-		for (int i = 0; i < limit; i++) // 0, 1, 2
-			messages[i] = "message " + i + " of " + limit;
-
-		headers.put("limit", limit);
+		for (int i = 1; i <= limit; i++) // 1, 2, 3, 4, 5, 6
+			messages[i - 1] = "message " + i + " of " + limit;
 
 		/*
 		 * Send Batch
 		 */
 		printWipe2("SEND BATCH");
 		Thread.sleep(1500);
-		for (int i = limit - 1; i >= 0; i--) { // 2, 1, 0
+		for (int i = 6; i > 0; i--) { // 6, 5, 4, 3, 2, 1
 			headers.put("index", i);
-			producerTemplate.sendBodyAndHeaders("direct:batchSize3", messages[i], headers);
-		}
-
+			producerTemplate.sendBodyAndHeaders("direct:batchSize3", messages[i - 1], headers);
+			Thread.sleep(250);
+		}		
+		
+		printWipe("aguarda 10 segundos... (1)");
 		Thread.sleep(10000);
 
 		/*
@@ -99,17 +99,19 @@ public class CamelMessageSequence {
 		 */
 		printWipe2("SEND STREAM");
 		Thread.sleep(1500);
-		for (int i = limit - 1; i >= 0; i--) { // 2, 1, 0
+		for (int i = 6; i > 0; i--) { // 6, 5, 4, 3, 2, 1
 			headers.put("index", i);
-			producerTemplate.sendBodyAndHeaders("direct:streamCapacity3", messages[i], headers);
-			Thread.sleep(1250); // Tente ser mais rapido que a configuração de timeout para incluir na ordenação
+			producerTemplate.sendBodyAndHeaders("direct:streamCapacity2", messages[i - 1], headers);
+			Thread.sleep(250);
 		}
-		printWipe2("O tempo em milissegundos que o resequenciador aguarda uma mensagem faltante antes de enviar as que já possui.");
+		Thread.sleep(3000); // Aguarda o stream concluir o consumo
 
 		/*
 		 * Closes All
-		 */		
-		Thread.sleep(7000); // Espera um pouco mais que o timeout do stream
+		 */
+		printWipe("aguarda 10 segundos... (2)");
+		Thread.sleep(10000);
+		
 		printWipe2("CLOSES ALL");
 		producerTemplate.close();
 		consumerTemplate.close();
