@@ -63,7 +63,9 @@ public class CamelXml {
 		String receiveBody;
 		ArrayList<XmlOrder> arrayListOrders = new ArrayList<>();
 
-		while ((receiveBody = consumerTemplate.receiveBody("seda:processOrder", 2000, String.class)) != null) {
+		printWipe("Recebe arquivos por 50 segundos.");
+		
+		while ((receiveBody = consumerTemplate.receiveBody("seda:processOrder", 50000, String.class)) != null) {
 
 			final XmlOrder xmlOrder = (XmlOrder) unmarshaller.unmarshal(new StringReader(receiveBody));
 			arrayListOrders.add(xmlOrder);
@@ -77,8 +79,8 @@ public class CamelXml {
 			print("    installments = " + xmlOrder.payment.installments);
 		}
 
-		printWipe("aguarda 10 segundos... (1)");
-		Thread.sleep(10000);
+		printWipe("aguarda 2 segundos... (1)");
+		Thread.sleep(2000);
 
 		printWipe2("CLOSES ALL");
 		producerTemplate.close();
