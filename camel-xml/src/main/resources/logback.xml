@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- Appender para saída no Console -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Define o nível global como INFO -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+	<!-- (Opcional) Silenciar pacotes específicos do Camel se necessário -->
+	<logger name="org.apache.camel" level="INFO" />
+
+</configuration>

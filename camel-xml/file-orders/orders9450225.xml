@@ -1,0 +1,32 @@
+<orders>
+	<order id="1">
+		<items>
+			<item id="1010">1</item>
+			<item id="1015">1</item>
+			<item id="1020">1</item>
+		</items>
+		<payment type="credit">
+			<cardNumber>
+				1110
+			</cardNumber>
+			<installments>
+				1
+			</installments>
+		</payment>
+	</order>
+	<order id="2">
+		<items>
+			<item id="2010">1</item>
+			<item id="2015">1</item>
+			<item id="2020">1</item>
+		</items>
+		<payment type="pix">
+			<cardNumber>
+				2220
+			</cardNumber>
+			<installments>
+				2
+			</installments>
+		</payment>
+	</order>
+</orders>
