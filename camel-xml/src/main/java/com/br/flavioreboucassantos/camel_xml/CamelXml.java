@@ -104,6 +104,5 @@ public class CamelXml {
 		producerTemplate.close();
 		consumerTemplate.close();
 		defaultCamelContext.close();
-
 	}
 }
