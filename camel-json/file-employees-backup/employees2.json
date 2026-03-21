@@ -1,0 +1,28 @@
+{
+	"employees": [
+		{
+			"name": "emp1",
+			"type": "type1",
+			"address": "street aaa, 111",
+			"city": "city1"
+		},
+		{
+			"name": "emp2",
+			"type": "type2",
+			"address": "street bbb, 222",
+			"city": "city2"
+		},
+		{
+			"name": "emp3",
+			"type": "type3",
+			"address": "street ccc, 333",
+			"city": "city3"
+		},
+		{
+			"name": "emp4",
+			"type": "type4",
+			"address": "street ddd, 444",
+			"city": "city4"
+		}
+	]
+}
