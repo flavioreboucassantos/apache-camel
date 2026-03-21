@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.apache.camel.ConsumerTemplate;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.builder.ValueBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 
 import jakarta.xml.bind.JAXBContext;
@@ -33,12 +34,29 @@ public class CamelXml {
 		 * STRUCTURING CAMEL ROUTE & CONTEXT
 		 */
 		final RouteBuilder routeBuilder = new RouteBuilder() {
+
 			@Override
 			public void configure() throws Exception {
+
+				final ValueBuilder xpath_payment_type_credit = xpath("//payment[@type='credit']");
+				final ValueBuilder xpath_payment_type_pix = xpath("//payment[@type='pix']");
+
 				from("file:file-orders?include=.*\\.xml&noop=true") // Lê o arquivo XML da pasta file-orders sem mover ou remover
 						.log("Lendo arquivo: ${file:name}")
 						.split().xpath("/orders/order") // Divide o XML por cada tag <order>
-						.to("seda:processOrder"); // Envia cada item para outra etapa
+						.choice()
+
+						.when(xpath_payment_type_credit) // rota para payment type credit
+						.log("ORDER PAYMENT TYPE CREDIT")
+						.to("seda:processOrder")
+
+						.when(xpath_payment_type_pix)
+						.log("ORDER PAYMENT TYPE PIX") // rota para payment type pix
+						.to("seda:processOrder")
+
+						.otherwise()
+						.log("ORDER PAYMENT TYPE UNKNOWN") // rota para payment type unknown
+						.to("seda:processOrder");
 			}
 		};
 
@@ -64,7 +82,7 @@ public class CamelXml {
 		ArrayList<XmlOrder> arrayListOrders = new ArrayList<>();
 
 		printWipe("Recebe arquivos por 50 segundos.");
-		
+
 		while ((receiveBody = consumerTemplate.receiveBody("seda:processOrder", 50000, String.class)) != null) {
 
 			final XmlOrder xmlOrder = (XmlOrder) unmarshaller.unmarshal(new StringReader(receiveBody));
