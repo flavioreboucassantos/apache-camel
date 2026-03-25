@@ -14,10 +14,21 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.release>25</maven.compiler.release>
+		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+		<quarkus.platform.version>3.32.4</quarkus.platform.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>${quarkus.platform.group-id}</groupId>
+				<artifactId>${quarkus.platform.artifact-id}</artifactId>
+				<version>${quarkus.platform.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
 			<!-- APACHE CAMEL -->
 			<dependency>
 				<groupId>org.apache.camel</groupId>
@@ -38,6 +49,18 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest-jackson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-arc</artifactId>
+		</dependency>
 		<!-- APACHE CAMEL -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>
