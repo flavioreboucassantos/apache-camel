@@ -34,8 +34,8 @@ public class CamelWhatsApp {
 
 		final ConfigLoader loader = new ConfigLoader();
 
-		final String phoneNumberId = loader.getProperty("phoneNumberId");
-		final String whatsAppToken = loader.getProperty("whatsAppToken");
+		final String phoneNumberId = loader.getProperty("sendWhatsApp.phoneNumberId");
+		final String whatsAppToken = loader.getProperty("sendWhatsApp.token");
 		final RouteBuilderSendWhatsApp routeBuilderSendWhatsApp = new RouteBuilderSendWhatsApp(phoneNumberId, whatsAppToken);
 
 		final DefaultCamelContext defaultCamelContext = new DefaultCamelContext();
