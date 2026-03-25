@@ -9,6 +9,7 @@ import org.apache.camel.http.base.HttpOperationFailedException;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.model.dataformat.JsonLibrary;
 
+import com.br.flavioreboucassantos.camel_whatsapp.jsonclass.JSONWhatsAppMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -40,13 +41,14 @@ public class CamelWhatsApp {
 
 		final RouteBuilder routeBuilder = new RouteBuilder() {
 
+			final ConfigLoader loader = new ConfigLoader();
 			final ObjectMapper mapper = new ObjectMapper();
-
-			final String whatsAppToken = "";
 
 			final String baseUrl = "https://graph.facebook.com";
 			final String version = "/v23.0/";
-			final String phoneNumberId = "5531985868479";
+
+			final String phoneNumberId = loader.getProperty("phoneNumberId");
+			final String whatsAppToken = loader.getProperty("whatsAppToken");
 
 			final ValueBuilder headerAuthorizationValue = constant("Bearer " + whatsAppToken);
 			final ValueBuilder contentType = constant("application/json");
@@ -82,6 +84,7 @@ public class CamelWhatsApp {
 
 						// Converte o POJO para JSON para a API Meta
 						.marshal().json(JsonLibrary.Jackson)
+						.log("Corpo da mensagem: ${body}")
 
 						// Configura os cabeçalhos necessários
 						.setHeader("Authorization", headerAuthorizationValue)
@@ -105,9 +108,9 @@ public class CamelWhatsApp {
 		 * USING PRODUCER
 		 */
 
-		final String to = "5531985868479";
+		final String to = "553185868479";
 		try {
-			producerTemplate.sendBody("direct:sendWhatsApp", new JSONWhatsAppMessage(to, "Teste de envio de mensagem para WhatsApp"));
+			producerTemplate.sendBody("direct:sendWhatsApp", new JSONWhatsAppMessage(to, "(2) Teste de envio de mensagem para WhatsApp"));
 		} catch (Exception e) {
 			printWipe2("sendBody para direct:sendWhatsApp Falhou: " + e.getMessage());
 		} finally {
