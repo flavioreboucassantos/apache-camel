@@ -4,10 +4,12 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.UriInfo;
 
@@ -32,6 +34,13 @@ public class DebugControllerWebHook {
 	@Path("/json")
 	public String receiveJson(JsonNode jsonNode) {
 		return "Processado: " + jsonNode.toPrettyString();
+	}
+
+	@POST
+	@Path("/form")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String receiveAllForm(MultivaluedMap<String, String> formParams) {
+		return formParams.toString();
 	}
 
 }
