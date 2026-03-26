@@ -8,6 +8,7 @@ public record JSONWebHookMessageEntryChangesValue(
 		@JsonProperty(value = "messaging_product") String messagingProduct,
 		@JsonProperty(value = "metadata") JSONWebHookMessageEntryChangesValueMetadata metadata,
 		@JsonProperty(value = "contacts") List<JSONWebHookMessageEntryChangesValueContacts> contacts,
-		@JsonProperty(value = "messages") List<JSONWebHookMessageEntryChangesValueMessages> messages) {
+		@JsonProperty(value = "messages") List<JSONWebHookMessageEntryChangesValueMessages> messages,
+		@JsonProperty(value = "statuses") List<JSONWebHookMessageEntryChangesValueStatuses> statuses) {
 
 }

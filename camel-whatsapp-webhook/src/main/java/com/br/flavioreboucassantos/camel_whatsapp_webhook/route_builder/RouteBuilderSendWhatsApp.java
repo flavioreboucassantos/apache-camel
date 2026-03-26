@@ -5,6 +5,8 @@ import org.apache.camel.builder.ValueBuilder;
 import org.apache.camel.http.base.HttpOperationFailedException;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,12 +16,14 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 
+	private static final Logger LOG = LoggerFactory.getLogger(RouteBuilderSendWhatsApp.class);
+
 	final String phoneNumberId;
 	final String whatsAppToken;
 
 	public RouteBuilderSendWhatsApp(
-			@ConfigProperty(name = "send_whatsapp.phone_number_id") final String phoneNumberId,
-			@ConfigProperty(name = "send_whatsapp.whatsapp_token") final String whatsAppToken) {
+			@ConfigProperty(name = "whatsapp_send.phone_number_id") final String phoneNumberId,
+			@ConfigProperty(name = "whatsapp_send.whatsapp_token") final String whatsAppToken) {
 		this.phoneNumberId = phoneNumberId;
 		this.whatsAppToken = whatsAppToken;
 	}
@@ -31,9 +35,6 @@ public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 
 	@Override
 	public void configure() throws Exception {
-
-		System.out.println("configure!!!!!!!");
-
 		final ObjectMapper mapper = new ObjectMapper();
 
 		final String baseUrl = "https://graph.facebook.com";
@@ -64,9 +65,7 @@ public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 
 		// Rota: Receber da Fila -> Enviar para WhatsApp
 		from(getRouteUri())
-				.log("Enviando mensagem para: ${body.to}")
-				.log("Conteúdo da mensagem: ${body.messageText.body}")
-				.log("uriToHttpPost: " + uriToHttpPost)
+				.log("\n\n> Enviando mensagem para: ${body.to}\n> Conteúdo da mensagem:\n${body.messageText.body}\n> uriToHttpPost: " + uriToHttpPost + "\n")
 
 				// Converte o POJO para JSON para a API Meta
 				.marshal().json(JsonLibrary.Jackson)

@@ -1,5 +1,7 @@
 package com.br.flavioreboucassantos.camel_whatsapp_webhook;
 
+import org.apache.camel.quarkus.main.CamelMainApplication;
+
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
@@ -7,6 +9,12 @@ import io.quarkus.runtime.annotations.QuarkusMain;
 public class CamelWhatsAppWebHook {
 
 	static public void main(String[] args) throws Exception {
-		Quarkus.run(args);
+		/*
+		 * Attention:
+		 * 
+		 * - The `quarkusApplication` parameter of `Quarkus.run` should be `CamelMainApplication.class`.
+		 * 
+		 */
+		Quarkus.run(CamelMainApplication.class, args);
 	}
 }

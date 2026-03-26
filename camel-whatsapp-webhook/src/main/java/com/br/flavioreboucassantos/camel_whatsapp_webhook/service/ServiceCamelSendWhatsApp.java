@@ -23,7 +23,7 @@ public class ServiceCamelSendWhatsApp {
 	@Inject
 	public ServiceCamelSendWhatsApp(
 			final RouteBuilderSendWhatsApp routeBuilderSendWhatsApp,
-			final ProducerTemplate producerTemplate) {
+			final ProducerTemplate producerTemplate) throws Exception {
 
 		routeUri = routeBuilderSendWhatsApp.getRouteUri();
 		this.producerTemplate = producerTemplate;
@@ -33,7 +33,8 @@ public class ServiceCamelSendWhatsApp {
 		try {
 			producerTemplate.sendBody(routeUri, new JSONWhatsAppMessage(to, textOfMessage));
 		} catch (Exception e) {
-			LOG.info("ServiceCamelSendWhatsApp -> direct:sendWhatsApp Falhou: " + e.getMessage());
+			LOG.info("ServiceCamelSendWhatsApp -> direct:sendWhatsApp Falhou");
+			e.printStackTrace();
 		} finally {
 		}
 
