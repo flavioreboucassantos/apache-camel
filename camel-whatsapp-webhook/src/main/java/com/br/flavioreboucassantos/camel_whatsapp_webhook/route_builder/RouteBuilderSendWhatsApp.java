@@ -4,6 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.builder.ValueBuilder;
 import org.apache.camel.http.base.HttpOperationFailedException;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -16,7 +17,9 @@ public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 	final String phoneNumberId;
 	final String whatsAppToken;
 
-	public RouteBuilderSendWhatsApp(final String phoneNumberId, final String whatsAppToken) {
+	public RouteBuilderSendWhatsApp(
+			@ConfigProperty(name = "send_whatsapp.phone_number_id") final String phoneNumberId,
+			@ConfigProperty(name = "send_whatsapp.whatsapp_token") final String whatsAppToken) {
 		this.phoneNumberId = phoneNumberId;
 		this.whatsAppToken = whatsAppToken;
 	}
@@ -28,6 +31,8 @@ public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 
 	@Override
 	public void configure() throws Exception {
+
+		System.out.println("configure!!!!!!!");
 
 		final ObjectMapper mapper = new ObjectMapper();
 
@@ -75,6 +80,5 @@ public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 				.to(uriToHttpPost)
 
 				.log("Resposta da API: ${body}");
-
 	}
 }

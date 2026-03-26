@@ -39,6 +39,7 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<!-- REST -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-rest</artifactId>
@@ -47,9 +48,15 @@
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-rest-jackson</artifactId>
 		</dependency>
+
+		<!-- CAMEL -->
 		<dependency>
 			<groupId>org.apache.camel.quarkus</groupId>
 			<artifactId>camel-quarkus-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel.quarkus</groupId>
+			<artifactId>camel-quarkus-direct</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.quarkus</groupId>
@@ -57,8 +64,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel.quarkus</groupId>
+			<artifactId>camel-quarkus-log</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>org.apache.camel.quarkus</groupId>
 			<artifactId>camel-quarkus-http</artifactId>
 		</dependency>
+
+		<!-- QUARKUS -->
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-arc</artifactId>
