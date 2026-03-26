@@ -1,7 +1,7 @@
 # AMBIENTE
 
 	JDK 25
-	<quarkus.platform.version>3.32.2</quarkus.platform.version>
+	<quarkus.platform.version>3.34.1</quarkus.platform.version>
 
 # Environment Variable
 

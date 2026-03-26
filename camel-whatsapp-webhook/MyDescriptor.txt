@@ -1,0 +1,18 @@
+# AMBIENTE
+
+	# Firewall	
+		Servidor Web HTTP: Todos os Programas e Serviços -> TCP:80 -> Público
+	
+	# Usando o application.properties (Configuração Permanente)
+		quarkus.http.host=0.0.0.0
+		quarkus.http.port=80
+		
+	# Usando Variáveis de Ambiente (Recomendado para Produção/Docker)
+		export QUARKUS_HTTP_HOST=0.0.0.0
+		docker run -i --rm -p 80:80 -e QUARKUS_HTTP_HOST=0.0.0.0 imagem-quarkus
+		
+	# Usando Argumentos de Linha de Comando
+		java -Dquarkus.http.host=0.0.0.0 -jar target/quarkus-app/quarkus-run.jar
+
+	# Usando o Modo de Desenvolvimento (Dev Mode)
+		./mvnw quarkus:dev -Dquarkus.http.host=0.0.0.0

@@ -1,4 +1,4 @@
-package com.br.flavioreboucassantos.camel_whatsapp.route_builder;
+package com.br.flavioreboucassantos.camel_whatsapp_webhook.route_builder;
 
 import org.apache.camel.builder.RouteBuilder;
 

@@ -1,4 +1,4 @@
-package com.br.flavioreboucassantos.camel_whatsapp;
+package com.br.flavioreboucassantos.camel_whatsapp_webhook;
 
 import java.io.IOException;
 import java.io.InputStream;

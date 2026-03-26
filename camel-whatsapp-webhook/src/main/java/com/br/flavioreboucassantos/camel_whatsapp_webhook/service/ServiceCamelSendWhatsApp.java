@@ -1,4 +1,4 @@
-package com.br.flavioreboucassantos.camel_whatsapp.service;
+package com.br.flavioreboucassantos.camel_whatsapp_webhook.service;
 
 import java.io.IOException;
 
@@ -6,12 +6,12 @@ import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.br.flavioreboucassantos.camel_whatsapp.jsonclass.JSONWhatsAppMessage;
-import com.br.flavioreboucassantos.camel_whatsapp.route_builder.BaseRouteBuilderSendWhatsApp;
+import com.br.flavioreboucassantos.camel_whatsapp_webhook.jsonclass.JSONWhatsAppMessage;
+import com.br.flavioreboucassantos.camel_whatsapp_webhook.route_builder.BaseRouteBuilderSendWhatsApp;
 
 public class ServiceCamelSendWhatsApp {
 
-	private static final Logger logger = LoggerFactory.getLogger(ServiceCamelSendWhatsApp.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ServiceCamelSendWhatsApp.class);
 
 	final BaseRouteBuilderSendWhatsApp baseRouteBuilderSendWhatsApp;
 	final ProducerTemplate producerTemplate;
@@ -30,7 +30,7 @@ public class ServiceCamelSendWhatsApp {
 		try {
 			producerTemplate.sendBody(baseRouteBuilderSendWhatsApp.getRouteUri(), new JSONWhatsAppMessage(to, textOfMessage));
 		} catch (Exception e) {
-			logger.info("ServiceCamelSendWhatsApp -> direct:sendWhatsApp Falhou: " + e.getMessage());
+			LOG.info("ServiceCamelSendWhatsApp -> direct:sendWhatsApp Falhou: " + e.getMessage());
 		} finally {
 		}
 

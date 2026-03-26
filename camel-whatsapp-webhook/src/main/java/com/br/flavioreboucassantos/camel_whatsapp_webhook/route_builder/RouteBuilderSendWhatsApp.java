@@ -1,4 +1,4 @@
-package com.br.flavioreboucassantos.camel_whatsapp.route_builder;
+package com.br.flavioreboucassantos.camel_whatsapp_webhook.route_builder;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.ValueBuilder;
@@ -8,6 +8,9 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 
 	final String phoneNumberId;
