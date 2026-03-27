@@ -2,8 +2,8 @@ package com.br.flavioreboucassantos.camel_whatsapp_webhook.jsonclass;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record JSONWebHookMessageEntryChangesValueContacts(
+public record JSONWebHookCallbackEntryChangesValueContacts(
 		@JsonProperty(value = "wa_id") String waId,
-		@JsonProperty(value = "profile") JSONWebHookMessageEntryChangesValueContactsProfile profile) {
+		@JsonProperty(value = "profile") JSONWebHookCallbackEntryChangesValueContactsProfile profile) {
 
 }

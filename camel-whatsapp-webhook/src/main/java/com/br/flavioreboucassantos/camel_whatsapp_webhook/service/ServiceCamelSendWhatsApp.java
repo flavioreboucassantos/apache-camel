@@ -1,7 +1,5 @@
 package com.br.flavioreboucassantos.camel_whatsapp_webhook.service;
 
-import java.io.IOException;
-
 import org.apache.camel.ProducerTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +37,4 @@ public class ServiceCamelSendWhatsApp {
 		}
 
 	}
-
-	public void close() throws IOException {
-		producerTemplate.close();
-	}
-
 }

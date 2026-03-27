@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
+public final class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RouteBuilderSendWhatsApp.class);
 
@@ -57,7 +57,7 @@ public class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp {
 					final String prettyJson = mapper.writeValueAsString(jsonObject);
 
 					// Log the error details or perform custom logic
-					log.error("HTTP operation failed with status code: {} and body:\n{}", statusCode, prettyJson);
+					log.error("\nHTTP operation failed with status code: {} and body:\n{}", statusCode, prettyJson);
 				})
 				.handled(true) // Mark the exception as handled so it doesn't propagate further
 				.end();

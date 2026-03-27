@@ -2,7 +2,7 @@ package com.br.flavioreboucassantos.camel_whatsapp_webhook.jsonclass;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record JSONWebHookMessageEntryChanges(
+public record JSONWebHookCallbackEntryChanges(
 		@JsonProperty(value = "field") String field,
-		@JsonProperty(value = "value") JSONWebHookMessageEntryChangesValue value) {
+		@JsonProperty(value = "value") JSONWebHookCallbackEntryChangesValue value) {
 }

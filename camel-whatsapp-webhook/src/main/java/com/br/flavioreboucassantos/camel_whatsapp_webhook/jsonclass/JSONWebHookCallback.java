@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record JSONWebHookMessage(
+public record JSONWebHookCallback(
 		@JsonProperty(value = "object") String object,
-		@JsonProperty(value = "entry") List<JSONWebHookMessageEntry> entry) {
+		@JsonProperty(value = "entry") List<JSONWebHookCallbackEntry> entry) {
 
 }

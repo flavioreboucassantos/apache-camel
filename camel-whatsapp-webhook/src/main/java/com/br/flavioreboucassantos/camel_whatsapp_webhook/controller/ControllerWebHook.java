@@ -1,30 +1,35 @@
 package com.br.flavioreboucassantos.camel_whatsapp_webhook.controller;
 
-import java.util.List;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.br.flavioreboucassantos.camel_whatsapp_webhook.jsonclass.JSONWebHookMessage;
-import com.br.flavioreboucassantos.camel_whatsapp_webhook.jsonclass.JSONWebHookMessageEntryChangesValue;
-import com.br.flavioreboucassantos.camel_whatsapp_webhook.jsonclass.JSONWebHookMessageEntryChangesValueStatuses;
+import com.br.flavioreboucassantos.camel_whatsapp_webhook.service.ServiceWebHook;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
+/**
+ * @author Flávio Rebouças Santos - flavioReboucasSantos@gmail.com
+ */
 @Path("/webhook")
-public class ControllerWebHook {
+public final class ControllerWebHook {
 
 	private final Logger LOG = LoggerFactory.getLogger(ControllerWebHook.class);
 
 	final String myVerifyToken;
+	final ServiceWebHook serviceWebHook;
 
-	public ControllerWebHook(@ConfigProperty(name = "whatsapp_webhook.my_verify_token") final String myVerifyToken) {
+	@Inject
+	public ControllerWebHook(
+			@ConfigProperty(name = "whatsapp_webhook.my_verify_token") final String myVerifyToken,
+			final ServiceWebHook serviceWebHook) {
 		this.myVerifyToken = myVerifyToken;
+		this.serviceWebHook = serviceWebHook;
 	}
 
 	@GET
@@ -44,22 +49,22 @@ public class ControllerWebHook {
 	}
 
 	@POST
-	public Response getMessage(JSONWebHookMessage jsonWebHookMessage) {
-		JSONWebHookMessageEntryChangesValue value = jsonWebHookMessage.entry().getFirst().changes().getFirst().value();
+	public Response getCallback(String jsonWebHookCallback) {
+//		JSONWebHookCallbackEntryChangesValue value = jsonWebHookCallback.entry().getFirst().changes().getFirst().value();
+//
+//		if (value.messages() == null) {
+//
+//			final List<JSONWebHookCallbackEntryChangesValueStatuses> statuses = value.statuses();
+//			LOG.info("\n\n> Statuses of your Message\n> recipient_id: " + statuses.getFirst().recipient_id() + "\n> status: " + statuses.getFirst().status());
+//
+//		} else {
+//
+//			final String contact = value.contacts().getFirst().profile().name();
+//			final String message = value.messages().getFirst().text().body();
+//			LOG.info("\n\n> New Message From: " + contact + "\n> Message:\n" + message + "\n");
+//		}
 
-		if (value.messages() == null) {
-
-			final List<JSONWebHookMessageEntryChangesValueStatuses> statuses = value.statuses();
-			LOG.info("\n\n> Statuses of your Message\n> recipient_id: " + statuses.getFirst().recipient_id() + "\n> status: " + statuses.getFirst().status());
-
-		} else {
-
-			final String contact = value.contacts().getFirst().profile().name();
-			final String message = value.messages().getFirst().text().body();
-			LOG.info("\n\n> New Message From: " + contact + "\n> Message:\n" + message + "\n");
-		}
-
-//		LOG.info("\n" + jsonWebHookMessage);
+		serviceWebHook.sendWebHookCallback(jsonWebHookCallback);
 
 		return Response.status(Response.Status.OK).build();
 	}
