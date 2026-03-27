@@ -7,7 +7,7 @@ public record JSONWebHookCallbackEntryChangesValueMessages(
 		@JsonProperty(value = "id") String id,
 		@JsonProperty(value = "timestamp") String timestamp,
 		@JsonProperty(value = "type") String type,
-@JsonProperty(value = "text") JSONWebHookCallbackEntryChangesValueMessagesText text,
+		@JsonProperty(value = "text") JSONWebHookCallbackEntryChangesValueMessagesText text,
 		@JsonProperty(value = "reaction") JSONWebHookCallbackEntryChangesValueMessagesReaction reaction) {
 
 }
