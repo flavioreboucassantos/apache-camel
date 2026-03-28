@@ -27,6 +27,6 @@ public class ServiceCamelSendWhatsApp {
 	}
 
 	public void sendWhatsApp(final String to, final String textOfMessage) {
-		producerTemplate.sendBody(routeBuilderSendWhatsApp.getRouteUriFrom(), new JSONWhatsAppMessage(to, textOfMessage));
+		producerTemplate.sendBody(routeBuilderSendWhatsApp.getUriFrom(), new JSONWhatsAppMessage(to, textOfMessage));
 	}
 }

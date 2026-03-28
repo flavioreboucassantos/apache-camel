@@ -4,6 +4,9 @@ import org.apache.camel.builder.RouteBuilder;
 
 public abstract class BaseRouteBuilderSendWhatsApp extends RouteBuilder {
 
-	public abstract String getRouteUriFrom();
-	public abstract String getRouteUriTo();
+	public abstract String getUriFrom();
+
+	public abstract String getUriTo();
+
+	public abstract String getUriDeadLetter();
 }

@@ -34,13 +34,18 @@ public final class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp
 	}
 
 	@Override
-	public String getRouteUriFrom() {
+	public String getUriFrom() {
 		return "direct:sendWhatsApp";
 	}
 
 	@Override
-	public String getRouteUriTo() {
+	public String getUriTo() {
 		return uriToHttpPost;
+	}
+
+	@Override
+	public String getUriDeadLetter() {
+		return null;
 	}
 
 	@Override
@@ -66,14 +71,14 @@ public final class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp
 //				.to("direct:handleErrorResponse"); // Redirect to another route for specific error processing
 
 		// Rota: Receber da Fila -> Enviar para WhatsApp
-		from(getRouteUriFrom())
+		from(getUriFrom())
 				.marshal().json(JsonLibrary.Jackson, true)
-				.log("\n> Camel (From "+getRouteUriFrom()+" To "+getRouteUriTo()+") With Body:\n${body}\n")
+				.log("\n> Camel (From " + getUriFrom() + " To " + getUriTo() + ") With Body:\n${body}\n")
 
 				.setHeader("Authorization", headerAuthorizationValue)
 				.setHeader("Content-Type", contentType)
 
-				.to(getRouteUriTo())
+				.to(getUriTo())
 
 				.log("\n> Resposta da API: ${body}\n");
 	}

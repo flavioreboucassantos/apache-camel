@@ -27,7 +27,7 @@ public final class ServiceProducerToRouteWebHookCallback {
 	}
 
 	public void produces(final String jsonWebHookCallback) {
-		producerTemplate.sendBody(routeBuilderWebHookCallback.getRouteUriFrom(), jsonWebHookCallback);
+		producerTemplate.sendBody(routeBuilderWebHookCallback.getUriFrom(), jsonWebHookCallback);
 	}
 
 }

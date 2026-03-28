@@ -8,21 +8,25 @@ public final class RouteBuilderWebHookCallback extends BaseRouteBuilderSendWhats
 //	int counter = 0;
 
 	@Override
-	public String getRouteUriFrom() {
+	public String getUriFrom() {
 		return "seda:webHookCallback";
 	}
 
 	@Override
-	public String getRouteUriTo() {
+	public String getUriTo() {
 		return "kafka:webhookCallback";
 	}
 
 	@Override
-	public void configure() throws Exception {
-		from(getRouteUriFrom())
-//				.process(exchange -> exchange.getIn().setBody("Body" + counter++))
-				.log("\n> Camel (From " + getRouteUriFrom() + " To " + getRouteUriTo() + ") With Body:\n${body}\n")
-				.to(getRouteUriTo());
+	public String getUriDeadLetter() {
+		return null;
 	}
 
+	@Override
+	public void configure() throws Exception {
+		from(getUriFrom())
+//				.process(exchange -> exchange.getIn().setBody("Body" + counter++))
+				.log("\n> Camel (From " + getUriFrom() + " To " + getUriTo() + ") With Body:\n${body}\n")
+				.to(getUriTo());
+	}
 }
