@@ -12,7 +12,7 @@ public final class RouteBuilderWebHookCallback extends BaseRouteBuilderSendWhats
 
 	@Override
 	public String getRouteUriTo() {
-		return "jms:queue:webhook_callback";
+		return "kafka:webhookCallback";
 	}
 
 	@Override
