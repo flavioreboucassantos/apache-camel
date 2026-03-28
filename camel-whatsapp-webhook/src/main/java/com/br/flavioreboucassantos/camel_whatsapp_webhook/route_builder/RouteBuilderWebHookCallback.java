@@ -8,6 +8,11 @@ public final class RouteBuilderWebHookCallback extends BaseRouteBuilderSendWhats
 //	int counter = 0;
 
 	@Override
+	public String getRouteId() {
+		return "WebHookCallback";
+	}
+
+	@Override
 	public String getUriFrom() {
 		return "seda:webHookCallback";
 	}

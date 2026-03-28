@@ -32,6 +32,11 @@ public final class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp
 		headerAuthorizationValue = constant("Bearer " + whatsAppToken);
 		uriToHttpPost = baseUrl + version + phoneNumberId + "/messages";
 	}
+	
+	@Override
+	public String getRouteId() {
+		return "SendWhatsApp";
+	}
 
 	@Override
 	public String getUriFrom() {
