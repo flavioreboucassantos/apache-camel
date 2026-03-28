@@ -49,20 +49,7 @@ public final class ControllerWebHook {
 	}
 
 	@POST
-	public Response getCallback(String jsonWebHookCallback) {
-//		JSONWebHookCallbackEntryChangesValue value = jsonWebHookCallback.entry().getFirst().changes().getFirst().value();
-//
-//		if (value.messages() == null) {
-//
-//			final List<JSONWebHookCallbackEntryChangesValueStatuses> statuses = value.statuses();
-//			LOG.info("\n\n> Statuses of your Message\n> recipient_id: " + statuses.getFirst().recipient_id() + "\n> status: " + statuses.getFirst().status());
-//
-//		} else {
-//
-//			final String contact = value.contacts().getFirst().profile().name();
-//			final String message = value.messages().getFirst().text().body();
-//			LOG.info("\n\n> New Message From: " + contact + "\n> Message:\n" + message + "\n");
-//		}
+	public Response getCallback(final String jsonWebHookCallback) {
 
 		serviceProducerToRouteWebHookCallback.produces(jsonWebHookCallback);
 
