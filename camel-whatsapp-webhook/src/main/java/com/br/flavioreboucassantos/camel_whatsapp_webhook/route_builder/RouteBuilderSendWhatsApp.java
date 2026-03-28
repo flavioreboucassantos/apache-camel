@@ -18,32 +18,34 @@ public final class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp
 
 	private static final Logger LOG = LoggerFactory.getLogger(RouteBuilderSendWhatsApp.class);
 
-	final String phoneNumberId;
-	final String whatsAppToken;
+	final String baseUrl = "https://graph.facebook.com";
+	final String version = "/v23.0/";
+
+	final ValueBuilder headerAuthorizationValue;
+	final ValueBuilder contentType = constant("application/json");
+	final String uriToHttpPost;
 
 	public RouteBuilderSendWhatsApp(
 			@ConfigProperty(name = "whatsapp_send.phone_number_id") final String phoneNumberId,
 			@ConfigProperty(name = "whatsapp_send.whatsapp_token") final String whatsAppToken) {
-		this.phoneNumberId = phoneNumberId;
-		this.whatsAppToken = whatsAppToken;
+
+		headerAuthorizationValue = constant("Bearer " + whatsAppToken);
+		uriToHttpPost = baseUrl + version + phoneNumberId + "/messages";
 	}
 
 	@Override
-	public final String getRouteUri() {
+	public String getRouteUriFrom() {
 		return "direct:sendWhatsApp";
+	}
+
+	@Override
+	public String getRouteUriTo() {
+		return uriToHttpPost;
 	}
 
 	@Override
 	public void configure() throws Exception {
 		final ObjectMapper mapper = new ObjectMapper();
-
-		final String baseUrl = "https://graph.facebook.com";
-		final String version = "/v23.0/";
-
-		final ValueBuilder headerAuthorizationValue = constant("Bearer " + whatsAppToken);
-		final ValueBuilder contentType = constant("application/json");
-
-		final String uriToHttpPost = baseUrl + version + phoneNumberId + "/messages";
 
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		onException(HttpOperationFailedException.class)
@@ -64,20 +66,15 @@ public final class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp
 //				.to("direct:handleErrorResponse"); // Redirect to another route for specific error processing
 
 		// Rota: Receber da Fila -> Enviar para WhatsApp
-		from(getRouteUri())
-				.log("\n\n> Enviando mensagem para: ${body.to}\n> Conteúdo da mensagem:\n${body.messageText.body}\n> uriToHttpPost: " + uriToHttpPost + "\n")
+		from(getRouteUriFrom())
+				.marshal().json(JsonLibrary.Jackson, true)
+				.log("\n> Camel (From "+getRouteUriFrom()+" To "+getRouteUriTo()+") With Body:\n${body}\n")
 
-				// Converte o POJO para JSON para a API Meta
-				.marshal().json(JsonLibrary.Jackson)
-				.log("Corpo da mensagem: ${body}")
-
-				// Configura os cabeçalhos necessários
 				.setHeader("Authorization", headerAuthorizationValue)
 				.setHeader("Content-Type", contentType)
 
-				// Envia via HTTP POST
-				.to(uriToHttpPost)
+				.to(getRouteUriTo())
 
-				.log("Resposta da API: ${body}");
+				.log("\n> Resposta da API: ${body}\n");
 	}
 }

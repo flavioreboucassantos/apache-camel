@@ -15,26 +15,18 @@ public class ServiceCamelSendWhatsApp {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ServiceCamelSendWhatsApp.class);
 
+	final RouteBuilderSendWhatsApp routeBuilderSendWhatsApp;
 	final ProducerTemplate producerTemplate;
-	final String routeUri;
 
 	@Inject
 	public ServiceCamelSendWhatsApp(
 			final RouteBuilderSendWhatsApp routeBuilderSendWhatsApp,
 			final ProducerTemplate producerTemplate) throws Exception {
-
-		routeUri = routeBuilderSendWhatsApp.getRouteUri();
+		this.routeBuilderSendWhatsApp = routeBuilderSendWhatsApp;
 		this.producerTemplate = producerTemplate;
 	}
 
 	public void sendWhatsApp(final String to, final String textOfMessage) {
-		try {
-			producerTemplate.sendBody(routeUri, new JSONWhatsAppMessage(to, textOfMessage));
-		} catch (Exception e) {
-			LOG.info("ServiceCamelSendWhatsApp -> direct:sendWhatsApp Falhou");
-			e.printStackTrace();
-		} finally {
-		}
-
+		producerTemplate.sendBody(routeBuilderSendWhatsApp.getRouteUriFrom(), new JSONWhatsAppMessage(to, textOfMessage));
 	}
 }

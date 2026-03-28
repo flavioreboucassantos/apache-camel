@@ -10,24 +10,24 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
-public final class ServiceWebHook {
+public final class ServiceProducerToRouteWebHookCallback {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ServiceWebHook.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ServiceProducerToRouteWebHookCallback.class);
 
+	final RouteBuilderWebHookCallback routeBuilderWebHookCallback;
 	final ProducerTemplate producerTemplate;
-	final String routeUri;
 
 	@Inject
-	public ServiceWebHook(
+	public ServiceProducerToRouteWebHookCallback(
 			final RouteBuilderWebHookCallback routeBuilderWebHookCallback,
 			final ProducerTemplate producerTemplate) throws Exception {
 
-		routeUri = routeBuilderWebHookCallback.getRouteUri();
+		this.routeBuilderWebHookCallback = routeBuilderWebHookCallback;
 		this.producerTemplate = producerTemplate;
 	}
 
-	public void sendWebHookCallback(final String jsonWebHookCallback) {
-		producerTemplate.sendBody(routeUri, jsonWebHookCallback);
+	public void produces(final String jsonWebHookCallback) {
+		producerTemplate.sendBody(routeBuilderWebHookCallback.getRouteUriFrom(), jsonWebHookCallback);
 	}
 
 }

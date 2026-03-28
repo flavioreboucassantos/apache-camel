@@ -4,7 +4,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.br.flavioreboucassantos.camel_whatsapp_webhook.service.ServiceWebHook;
+import com.br.flavioreboucassantos.camel_whatsapp_webhook.service.ServiceProducerToRouteWebHookCallback;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -22,14 +22,14 @@ public final class ControllerWebHook {
 	private final Logger LOG = LoggerFactory.getLogger(ControllerWebHook.class);
 
 	final String myVerifyToken;
-	final ServiceWebHook serviceWebHook;
+	final ServiceProducerToRouteWebHookCallback serviceProducerToRouteWebHookCallback;
 
 	@Inject
 	public ControllerWebHook(
 			@ConfigProperty(name = "whatsapp_webhook.my_verify_token") final String myVerifyToken,
-			final ServiceWebHook serviceWebHook) {
+			final ServiceProducerToRouteWebHookCallback serviceProducerToRouteWebHookCallback) {
 		this.myVerifyToken = myVerifyToken;
-		this.serviceWebHook = serviceWebHook;
+		this.serviceProducerToRouteWebHookCallback = serviceProducerToRouteWebHookCallback;
 	}
 
 	@GET
@@ -64,7 +64,7 @@ public final class ControllerWebHook {
 //			LOG.info("\n\n> New Message From: " + contact + "\n> Message:\n" + message + "\n");
 //		}
 
-		serviceWebHook.sendWebHookCallback(jsonWebHookCallback);
+		serviceProducerToRouteWebHookCallback.produces(jsonWebHookCallback);
 
 		return Response.status(Response.Status.OK).build();
 	}

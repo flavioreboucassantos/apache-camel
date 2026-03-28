@@ -6,15 +6,20 @@ import jakarta.enterprise.context.ApplicationScoped;
 public final class RouteBuilderWebHookCallback extends BaseRouteBuilderSendWhatsApp {
 
 	@Override
-	public String getRouteUri() {
+	public String getRouteUriFrom() {
 		return "seda:webHookCallback";
 	}
 
 	@Override
+	public String getRouteUriTo() {
+		return "jms:queue:webhook_callback";
+	}
+
+	@Override
 	public void configure() throws Exception {
-		from(getRouteUri())
-				.log("\n\n> Enviando para jms:queue:webhook_callback:\n${body}\n")
-				.to("jms:queue:webhook_callback");
+		from(getRouteUriFrom())
+				.log("\n> Camel (From " + getRouteUriFrom() + " To " + getRouteUriTo() + ") With Body:\n${body}\n")
+				.to(getRouteUriTo());
 	}
 
 }
