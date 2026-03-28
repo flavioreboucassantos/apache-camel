@@ -44,11 +44,6 @@ public final class RouteBuilderSendWhatsApp extends BaseRouteBuilderSendWhatsApp
 	}
 
 	@Override
-	public String getUriDeadLetter() {
-		return null;
-	}
-
-	@Override
 	public void configure() throws Exception {
 		final ObjectMapper mapper = new ObjectMapper();
 

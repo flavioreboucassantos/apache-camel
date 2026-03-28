@@ -18,11 +18,6 @@ public final class RouteBuilderWebHookCallback extends BaseRouteBuilderSendWhats
 	}
 
 	@Override
-	public String getUriDeadLetter() {
-		return null;
-	}
-
-	@Override
 	public void configure() throws Exception {
 		from(getUriFrom())
 //				.process(exchange -> exchange.getIn().setBody("Body" + counter++))

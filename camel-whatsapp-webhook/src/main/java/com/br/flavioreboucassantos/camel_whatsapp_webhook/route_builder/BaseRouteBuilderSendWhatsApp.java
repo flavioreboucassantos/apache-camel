@@ -7,6 +7,5 @@ public abstract class BaseRouteBuilderSendWhatsApp extends RouteBuilder {
 	public abstract String getUriFrom();
 
 	public abstract String getUriTo();
-
-	public abstract String getUriDeadLetter();
+	
 }
