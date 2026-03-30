@@ -1,0 +1,9 @@
+# AMBIENTE
+
+	# VARIABLES FOR VM (Variable Before -jar)
+		1) kafka.client.isSharedGroup - default: true
+			# Variable that defines the Kafka Client's `groupId`:
+			# True for Shared, sets a constant ID across all initializations.
+			# False for Not Shared, sets a new and unique ID for each initialization.
+			# Hot To Use:
+		java -Dkafka.client.isSharedGroup=false -jar target\quarkus-app\quarkus-run.jar 

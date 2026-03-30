@@ -17,6 +17,11 @@ public class RouteBuilderFrom_Earliest_WebHookCallback extends BaseRouteBuilderS
 	final String topicParameters = "?autoOffsetReset=earliest"
 			+ "&groupId=" + groupId;
 
+	@Inject
+	public RouteBuilderFrom_Earliest_WebHookCallback(final ServiceConsumerFromRouteWebHookCallback serviceConsumerFromRouteWebHookCallback) {
+		this.serviceConsumerFromRouteWebHookCallback = serviceConsumerFromRouteWebHookCallback;
+	}
+
 	@Override
 	public String getRouteId() {
 		return "earliest-webhook-callback";
@@ -32,16 +37,10 @@ public class RouteBuilderFrom_Earliest_WebHookCallback extends BaseRouteBuilderS
 		return "direct:webHookCallback";
 	}
 
-	@Inject
-	public RouteBuilderFrom_Earliest_WebHookCallback(final ServiceConsumerFromRouteWebHookCallback serviceConsumerFromRouteWebHookCallback) {
-		this.serviceConsumerFromRouteWebHookCallback = serviceConsumerFromRouteWebHookCallback;
-	}
-
 	@Override
 	public void configure() throws Exception {
 		final JacksonDataFormat jsonDataFormat = new JacksonDataFormat(JSONWebHookCallback.class);
-
-		from(getUriFrom() + topicParameters)
+		from(getUriFrom())
 				.log("\n> Camel (From " + getUriFrom() + " To " + getUriTo() + ") Offset: ${header[kafka.OFFSET]} With Body:\n${body}\n")
 				.unmarshal(jsonDataFormat)
 				.process(ex -> {
